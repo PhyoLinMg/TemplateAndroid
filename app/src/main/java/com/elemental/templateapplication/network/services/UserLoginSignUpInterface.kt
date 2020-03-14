@@ -28,8 +28,8 @@ interface UserLoginSignUpInterface {
             val requestInterceptor = Interceptor { chain ->
                 val request = chain.request()
                     .newBuilder()
-                    .addHeader("X-Requested-With","XMLHttpRequest")
-                    .addHeader("Content-Type","application/json")
+//                    .addHeader("X-Requested-With","XMLHttpRequest")
+//                    .addHeader("Content-Type","application/json")
                     .build()
 
                 return@Interceptor chain.proceed(request)
