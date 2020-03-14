@@ -6,6 +6,8 @@
 
 - SharedPreference Added
 
+- Retrofit Network Call Added
+
 - More Features coming soon
 
   

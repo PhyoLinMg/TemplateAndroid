@@ -17,12 +17,14 @@ class MainActivity : AppCompatActivity(),KodeinAware {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         viewModel.showToast()
 
         MySharedPreference.postStringSharedPreference(this,"This is saving")
 
         Log.d("savedValue",MySharedPreference.getStringFromPreference(this))
-        //new->folder->res folder layout folder create
+
 
 
     }
