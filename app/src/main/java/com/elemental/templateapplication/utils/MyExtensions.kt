@@ -1,5 +1,9 @@
 package com.elemental.templateapplication.utils
 
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -20,4 +24,8 @@ inline fun <reified VM : ViewModel, T> T.kodeinViewModel(): Lazy<VM> where T : K
 
 inline fun <reified VM : ViewModel, T> T.kodeinViewModel(): Lazy<VM> where T : KodeinAware, T : Fragment {
     return lazy { ViewModelProvider(this, direct.instance()).get(VM::class.java) }
+}
+
+fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
+    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 }
