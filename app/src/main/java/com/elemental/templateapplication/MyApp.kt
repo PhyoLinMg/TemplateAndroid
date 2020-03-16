@@ -2,6 +2,9 @@ package com.elemental.templateapplication
 
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
+import com.elemental.templateapplication.repository.TestRepository
+import com.elemental.templateapplication.repository.TestRepositoryImpl
+import com.elemental.templateapplication.useCase.TestUseCase
 import com.elemental.templateapplication.utils.BaseViewModelFactory
 import com.elemental.templateapplication.utils.bindViewModel
 import org.kodein.di.Kodein
@@ -19,9 +22,15 @@ class MyApp:Application(),KodeinAware {
         bind<ViewModelProvider.Factory>() with singleton { BaseViewModelFactory(kodein.direct) }
 
         bindViewModel<SampleViewModel>() with provider {
-            SampleViewModel(instance())
+            SampleViewModel(instance(),instance())
         }
+        bind<TestRepository>() with singleton { TestRepositoryImpl(instance()) }
 
+        bind() from singleton { TestUseCase(instance()) }
 
+    }
+
+    override fun onCreate() {
+        super.onCreate()
     }
 }
