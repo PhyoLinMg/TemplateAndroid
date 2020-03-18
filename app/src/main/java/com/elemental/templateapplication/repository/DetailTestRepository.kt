@@ -3,11 +3,9 @@ package com.elemental.templateapplication.repository
 import androidx.lifecycle.LiveData
 import com.elemental.templateapplication.utils.STATUS
 
+interface DetailTestRepository {
 
-interface TestRepository {
-
-    fun load()
-    fun get():List<Any>
-    fun getStatus():LiveData<STATUS>
-
+    fun loadDetail(id:Int)
+    fun getDetail():Any
+    fun getStatus(): LiveData<STATUS>
 }

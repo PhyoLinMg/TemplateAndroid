@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.elemental.templateapplication.useCase.TestUseCase
 import com.elemental.templateapplication.utils.MySharedPreference
+import com.elemental.templateapplication.utils.StatusReturn
 import com.elemental.templateapplication.utils.kodeinViewModel
 
 import org.kodein.di.KodeinAware
@@ -35,7 +36,9 @@ class MainActivity : AppCompatActivity(),KodeinAware {
 
         Log.d("savedValue",MySharedPreference.getStringFromPreference(this))
 
-
+        StatusReturn.status(this,viewModel.getDataState())
 
     }
+
+
 }
