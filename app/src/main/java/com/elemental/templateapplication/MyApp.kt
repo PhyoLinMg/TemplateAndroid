@@ -28,6 +28,10 @@ class MyApp:Application(),KodeinAware {
 
         bind() from singleton { TestUseCase(instance()) }
 
+        //singleton yay ya ml
+
+        bind() from singleton {  }
+
     }
 
     override fun onCreate() {

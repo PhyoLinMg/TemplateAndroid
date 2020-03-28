@@ -10,8 +10,9 @@ import com.elemental.templateapplication.utils.STATUS
 class TestRepositoryImpl(val context: Context) : TestRepository {
     val lists:MutableList<Any> = ArrayList()
     val status:MutableLiveData<STATUS> = MutableLiveData()
-
+    private var value=Any()
     override fun load() {
+
         //This load will come from api or db data source
         status.postValue(STATUS.LOADING)
         val testList:MutableList<Any> = ArrayList()
@@ -25,6 +26,14 @@ class TestRepositoryImpl(val context: Context) : TestRepository {
 
     override fun get(): List<Any> {
         return lists
+    }
+
+    override fun loadDetail(id: Int) {
+        value=User("gg","gg")
+    }
+
+    override fun getDetail(): Any {
+        return value
     }
 
     override fun getStatus(): LiveData<STATUS> {

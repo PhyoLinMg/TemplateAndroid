@@ -14,4 +14,10 @@ class TestUseCase constructor(private val testRepository: TestRepository) {
     fun getDataLoadState():LiveData<STATUS>{
         return testRepository.getStatus()
     }
+    fun getDetail():Any{
+        return testRepository.getDetail()
+    }
+    fun loadDetail(id:Int){
+        return testRepository.loadDetail(id)
+    }
 }

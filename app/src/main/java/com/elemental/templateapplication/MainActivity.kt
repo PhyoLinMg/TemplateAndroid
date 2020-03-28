@@ -27,9 +27,10 @@ class MainActivity : AppCompatActivity(),KodeinAware {
 //
 //        Log.d("getList",useCase.get().toString())
 
-        viewModel.showToast()
         viewModel.load()
         viewModel.getData()
+        viewModel.loadDetail(1)
+        Log.d("detail",viewModel.getDetail().toString())
 
         MySharedPreference.postStringSharedPreference(this,"This is saving")
 

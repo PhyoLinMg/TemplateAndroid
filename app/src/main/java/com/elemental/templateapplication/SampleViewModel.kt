@@ -8,10 +8,10 @@ import androidx.lifecycle.ViewModel
 import com.elemental.templateapplication.useCase.TestUseCase
 import com.elemental.templateapplication.utils.STATUS
 
-class SampleViewModel(private val context: Context,private val useCase: TestUseCase):ViewModel() {
-    fun showToast(){
-        Toast.makeText(context,"This is working with DI",Toast.LENGTH_LONG).show()
-    }
+//do not pass context to viewmodel
+
+class SampleViewModel(private val useCase: TestUseCase):ViewModel() {
+
     fun load(){
         useCase.load()
     }
@@ -20,5 +20,11 @@ class SampleViewModel(private val context: Context,private val useCase: TestUseC
     }
     fun getDataState(): LiveData<STATUS> {
         return useCase.getDataLoadState()
+    }
+    fun getDetail():Any{
+        return useCase.getDetail()
+    }
+    fun loadDetail(id:Int){
+        return useCase.loadDetail(id)
     }
 }

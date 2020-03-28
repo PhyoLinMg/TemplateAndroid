@@ -18,8 +18,6 @@ interface UserLoginSignUpInterface {
 
 
 
-
-
     companion object {
         operator fun invoke(
             connectivityInterceptor: ConnectivityInterceptor

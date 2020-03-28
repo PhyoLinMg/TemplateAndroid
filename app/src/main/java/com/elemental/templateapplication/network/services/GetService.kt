@@ -14,6 +14,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 interface GetService{
 
 
+    // Need to Write Singleton Class
+
+
     companion object {
        operator fun invoke(
            connectivityInterceptor: ConnectivityInterceptor, token:String
