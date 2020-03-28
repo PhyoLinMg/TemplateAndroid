@@ -3,14 +3,13 @@ package com.elemental.templateapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.elemental.templateapplication.useCase.TestUseCase
 import com.elemental.templateapplication.utils.MySharedPreference
-import com.elemental.templateapplication.utils.StatusReturn
+import com.elemental.templateapplication.utils.Status
 import com.elemental.templateapplication.utils.kodeinViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
-import org.kodein.di.generic.instance
 
 class MainActivity : AppCompatActivity(),KodeinAware {
     override val kodein by kodein()
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity(),KodeinAware {
 
         Log.d("savedValue",MySharedPreference.getStringFromPreference(this))
 
-        StatusReturn.status(this,viewModel.getDataState())
+        Status.returnStatus(this,viewModel.getDataState(),progress_bar)
 
     }
 

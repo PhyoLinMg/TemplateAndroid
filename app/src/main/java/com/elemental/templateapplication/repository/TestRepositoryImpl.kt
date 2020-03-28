@@ -13,12 +13,13 @@ class TestRepositoryImpl(val context: Context) : TestRepository {
 
     override fun load() {
         //This load will come from api or db data source
-
+        status.postValue(STATUS.LOADING)
         val testList:MutableList<Any> = ArrayList()
         testList.add(0, User("linmaung","123435"))
         testList.add(1, User("mgmg","what the fuck"))
         testList.add(2, User("mama","what the fuck"))
         lists.addAll(testList)
+        status.postValue(STATUS.LOADED)
         Toast.makeText(context,lists.toString(),Toast.LENGTH_SHORT).show()
     }
 
