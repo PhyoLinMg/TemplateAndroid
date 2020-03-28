@@ -19,6 +19,18 @@ object MySharedPreference {
         val sharedPreferences= getSharedPreference(context)
         return sharedPreferences.getString(Constants.String_keyword,"").toString()
     }
+    fun saveTokenSharedPreference(context:Context,token:String){
+        with(getSharedPreference(context).edit()){
+            putString(Constants.access_token,token)
+            commit()
+        }
+    }
+    fun getTokenFromPreference(context:Context):String{
+        val sharedPreferences= getSharedPreference(context)
+        return sharedPreferences.getString(Constants.access_token,"").toString()
+
+
+    }
 
 
 }

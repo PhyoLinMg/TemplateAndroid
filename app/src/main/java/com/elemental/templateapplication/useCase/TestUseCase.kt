@@ -8,7 +8,7 @@ class TestUseCase constructor(private val testRepository: TestRepository) {
     fun load(){
         testRepository.load()
     }
-    fun get():List<Any>{
+    fun get():LiveData<List<Any>>{
         return testRepository.get()
     }
     fun getDataLoadState():LiveData<STATUS>{

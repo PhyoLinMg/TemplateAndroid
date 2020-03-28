@@ -8,15 +8,15 @@ import androidx.lifecycle.ViewModel
 import com.elemental.templateapplication.useCase.TestUseCase
 import com.elemental.templateapplication.utils.STATUS
 
-//do not pass context to viewmodel
+//do not pass context to viewModel
 
 class SampleViewModel(private val useCase: TestUseCase):ViewModel() {
 
     fun load(){
         useCase.load()
     }
-    fun getData(){
-        Log.d("viewModelhereList",useCase.get().toString())
+    fun getData():LiveData<List<Any>>{
+        return useCase.get()
     }
     fun getDataState(): LiveData<STATUS> {
         return useCase.getDataLoadState()

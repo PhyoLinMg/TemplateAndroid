@@ -18,7 +18,7 @@ interface PostService {
 
     companion object {
         operator fun invoke(
-            connectivityInterceptor: ConnectivityInterceptor
+            connectivityInterceptor: ConnectivityInterceptor,token:String
         ): PostService {
 
 

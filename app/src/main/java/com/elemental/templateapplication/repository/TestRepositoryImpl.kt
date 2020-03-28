@@ -1,30 +1,50 @@
 package com.elemental.templateapplication.repository
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.elemental.atantat.network.NoConnectivityException
+import com.elemental.atantat.network.services.GetService
 import com.elemental.templateapplication.User
 import com.elemental.templateapplication.utils.STATUS
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.kodein
+import org.kodein.di.generic.instance
 
-class TestRepositoryImpl(val context: Context) : TestRepository {
-    val lists:MutableList<Any> = ArrayList()
+class TestRepositoryImpl(val context: Context,val api:GetService) : TestRepository{
+
+    val lists:MutableLiveData<List<Any>> = MutableLiveData()
     val status:MutableLiveData<STATUS> = MutableLiveData()
     private var value=Any()
     override fun load() {
-
-        //This load will come from api or db data source
         status.postValue(STATUS.LOADING)
-        val testList:MutableList<Any> = ArrayList()
-        testList.add(0, User("linmaung","123435"))
-        testList.add(1, User("mgmg","what the fuck"))
-        testList.add(2, User("mama","what the fuck"))
-        lists.addAll(testList)
-        status.postValue(STATUS.LOADED)
-        Toast.makeText(context,lists.toString(),Toast.LENGTH_SHORT).show()
+        GlobalScope.launch {
+            try {
+                val response=api.getPeriods().await()
+                Log.d("response",response.body()!!.toString())
+                when{
+                    response.isSuccessful->{
+                        lists.postValue(response.body()!!.data)
+                        status.postValue(STATUS.LOADED)
+                    }
+                }
+            }catch (e:NoConnectivityException){
+                status.postValue(STATUS.FAILED)
+            }
+            catch (e:Throwable){
+                status.postValue(STATUS.FAILED)
+            }
+
+        }
+
     }
 
-    override fun get(): List<Any> {
+    override fun get(): LiveData<List<Any>> {
         return lists
     }
 

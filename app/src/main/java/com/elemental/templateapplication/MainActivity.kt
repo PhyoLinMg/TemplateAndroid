@@ -3,8 +3,10 @@ package com.elemental.templateapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.Observer
+import com.elemental.templateapplication.utils.Constants
 import com.elemental.templateapplication.utils.MySharedPreference
-import com.elemental.templateapplication.utils.Status
+import com.elemental.templateapplication.utils.ProgressUtil
 import com.elemental.templateapplication.utils.kodeinViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,22 +23,21 @@ class MainActivity : AppCompatActivity(),KodeinAware {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        useCase.load()
-//
-//
-//
-//        Log.d("getList",useCase.get().toString())
+
+        MySharedPreference.saveTokenSharedPreference(this,Constants.token)
+
+        Log.d("token",MySharedPreference.getTokenFromPreference(this))
 
         viewModel.load()
-        viewModel.getData()
+        viewModel.getData().observe(this, Observer {
+            Log.d("getDataFromActivity",it.toString())
+        })
         viewModel.loadDetail(1)
         Log.d("detail",viewModel.getDetail().toString())
 
-        MySharedPreference.postStringSharedPreference(this,"This is saving")
 
-        Log.d("savedValue",MySharedPreference.getStringFromPreference(this))
 
-        Status.returnStatus(this,viewModel.getDataState(),progress_bar)
+        ProgressUtil.returnStatus(this,viewModel.getDataState(),progress_bar)
 
     }
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 
-object Status {
+object ProgressUtil {
     fun returnStatus(viewLifecycleOwner: LifecycleOwner,status: LiveData<STATUS>,progressbar:ProgressBar){
         status.observe(viewLifecycleOwner, Observer {
             when(it){
