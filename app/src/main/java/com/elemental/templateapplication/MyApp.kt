@@ -30,9 +30,9 @@ class MyApp:Application(),KodeinAware {
 
         bind<ConnectivityInterceptor>() with singleton {
             ConnectivityInterceptorImpl(instance()) }
-        bind<String>() with singleton{
-            MySharedPreference.getTokenFromPreference(instance())
-        }
+//        bind<String>() with singleton{
+//            MySharedPreference.getTokenFromPreference(instance())
+//        }
         bind() from singleton { GetService(instance(), instance()) }
         bind() from singleton { PostService(instance(),instance()) }
         bind() from singleton { UserLoginSignUpInterface(instance()) }

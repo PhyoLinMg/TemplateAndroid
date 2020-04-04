@@ -1,9 +1,11 @@
 package com.elemental.atantat.network.services
 
 
+import android.content.Context
 import com.elemental.atantat.network.ConnectivityInterceptor
 import com.elemental.templateapplication.model.Periods
 import com.elemental.templateapplication.utils.Constants
+import com.elemental.templateapplication.utils.MySharedPreference
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -24,14 +26,14 @@ interface GetService{
 
     companion object {
        operator fun invoke(
-           connectivityInterceptor: ConnectivityInterceptor, token:String
+           connectivityInterceptor: ConnectivityInterceptor,context:Context
        ) : GetService {
 
 
            val requestInterceptor = Interceptor { chain ->
                val request = chain.request()
                    .newBuilder()
-                   .addHeader("Authorization","Bearer "+token)
+                   .addHeader("Authorization","Bearer "+MySharedPreference.getTokenFromPreference(context))
                    .build()
 
                return@Interceptor chain.proceed(request)
