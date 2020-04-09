@@ -3,6 +3,7 @@ package com.elemental.atantat.network.services
 
 import android.content.Context
 import com.elemental.atantat.network.ConnectivityInterceptor
+import com.elemental.templateapplication.model.Majors
 import com.elemental.templateapplication.model.Periods
 import com.elemental.templateapplication.utils.Constants
 import com.elemental.templateapplication.utils.MySharedPreference
@@ -16,13 +17,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 
-
 interface GetService{
-
 
     // Need to Write Singleton Class
     @GET("periods")
     fun getPeriods(): Deferred<Response<Periods>>
+
+    @GET("majors")
+    fun getMajors():Deferred<Response<Majors>>
 
     companion object {
        operator fun invoke(

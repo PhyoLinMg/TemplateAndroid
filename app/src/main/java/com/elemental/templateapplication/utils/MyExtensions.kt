@@ -18,6 +18,8 @@ inline fun <reified T : ViewModel> Kodein.Builder.bindViewModel(overrides: Boole
     return bind<T>(T::class.java.simpleName, overrides)
 }
 
+
+
 inline fun <reified VM : ViewModel, T> T.kodeinViewModel(): Lazy<VM> where T : KodeinAware, T : AppCompatActivity {
     return lazy { ViewModelProvider(this, direct.instance()).get(VM::class.java) }
 }

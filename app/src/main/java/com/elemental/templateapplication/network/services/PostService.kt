@@ -16,8 +16,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 interface PostService {
 
 
-
-
     companion object {
         operator fun invoke(
             connectivityInterceptor: ConnectivityInterceptor,context: Context
