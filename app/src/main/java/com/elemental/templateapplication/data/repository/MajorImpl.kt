@@ -1,16 +1,18 @@
-package com.elemental.templateapplication.repository
+package com.elemental.templateapplication.data.repository
 
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.elemental.atantat.network.NoConnectivityException
-import com.elemental.atantat.network.services.GetService
+import com.elemental.templateapplication.remote.network.services.ApiService
+import com.elemental.templateapplication.domain.repository.TestRepository
 import com.elemental.templateapplication.utils.STATUS
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class MajorImpl(val context: Context, val api: GetService):TestRepository {
+class MajorImpl(val context: Context, val api: ApiService):
+    TestRepository {
 
     val lists: MutableLiveData<List<Any>> = MutableLiveData()
     val status: MutableLiveData<STATUS> = MutableLiveData()

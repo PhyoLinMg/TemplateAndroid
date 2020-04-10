@@ -1,6 +1,6 @@
 package com.elemental.templateapplication.di
 
-import com.elemental.templateapplication.useCase.TestUseCase
+import com.elemental.templateapplication.domain.useCase.TestUseCase
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance

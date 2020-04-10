@@ -1,45 +1,41 @@
-package com.elemental.templateapplication.repository
+package com.elemental.templateapplication.data.repository
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.elemental.atantat.network.NoConnectivityException
-import com.elemental.atantat.network.services.GetService
+import com.elemental.templateapplication.remote.network.services.ApiService
 import com.elemental.templateapplication.User
+import com.elemental.templateapplication.data.dataSourceContract.RemoteDataSource
+import com.elemental.templateapplication.domain.repository.TestRepository
 import com.elemental.templateapplication.utils.STATUS
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.kodein
-import org.kodein.di.generic.instance
 
-class TestRepositoryImpl(val api:GetService) : TestRepository{
+class TestRepositoryImpl(val remoteDataSource: RemoteDataSource) :
+    TestRepository {
 
-    val lists:MutableLiveData<List<Any>> = MutableLiveData()
-    val status:MutableLiveData<STATUS> = MutableLiveData()
-    private var value=Any()
+    val lists: MutableLiveData<List<Any>> = MutableLiveData()
+    val status: MutableLiveData<STATUS> = MutableLiveData()
+    private var value = Any()
     override fun load() {
         status.postValue(STATUS.LOADING)
         GlobalScope.launch {
             try {
-                val response=api.getPeriods().await()
-                Log.d("response",response.toString())
-                when(response.code()){
-                    200->{
+                val response=remoteDataSource.getPeriods().await()
+                Log.d("response", response.toString())
+                when (response.code()) {
+                    200 -> {
                         lists.postValue(response.body()!!.data)
                         status.postValue(STATUS.LOADED)
                     }
-                    404->{
-                        Log.d("error",response.code().toString())
+                    404 -> {
+                        Log.d("error", response.code().toString())
                     }
                 }
-            }catch (e:NoConnectivityException){
+            } catch (e: NoConnectivityException) {
                 status.postValue(STATUS.FAILED)
-            }
-            catch (e:Throwable){
+            } catch (e: Throwable) {
                 status.postValue(STATUS.FAILED)
             }
 
@@ -52,7 +48,7 @@ class TestRepositoryImpl(val api:GetService) : TestRepository{
     }
 
     override fun loadDetail(id: Int) {
-        value=User("gg","gg")
+        value = User("gg", "gg")
     }
 
     override fun getDetail(): Any {

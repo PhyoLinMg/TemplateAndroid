@@ -1,7 +1,7 @@
-package com.elemental.templateapplication.useCase
+package com.elemental.templateapplication.domain.useCase
 
 import androidx.lifecycle.LiveData
-import com.elemental.templateapplication.repository.TestRepository
+import com.elemental.templateapplication.domain.repository.TestRepository
 import com.elemental.templateapplication.utils.STATUS
 
 class TestUseCase constructor(private val testRepository: TestRepository) {

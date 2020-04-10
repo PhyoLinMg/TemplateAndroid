@@ -1,10 +1,10 @@
-package com.elemental.atantat.network.services
+package com.elemental.templateapplication.remote.network.services
 
 
 import android.content.Context
 import com.elemental.atantat.network.ConnectivityInterceptor
-import com.elemental.templateapplication.model.Majors
-import com.elemental.templateapplication.model.Periods
+import com.elemental.templateapplication.data.model.Majors
+import com.elemental.templateapplication.data.model.Periods
 import com.elemental.templateapplication.utils.Constants
 import com.elemental.templateapplication.utils.MySharedPreference
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -14,10 +14,9 @@ import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 
-interface GetService{
+interface ApiService{
 
     // Need to Write Singleton Class
     @GET("periods")
@@ -29,16 +28,17 @@ interface GetService{
     companion object {
        operator fun invoke(
            connectivityInterceptor: ConnectivityInterceptor,context:Context
-       ) : GetService {
+       ) : ApiService {
 
 
            val requestInterceptor = Interceptor { chain ->
+               val token=MySharedPreference.getTokenFromPreference(context)
                val request = chain.request()
                    .newBuilder()
-                   .addHeader("Authorization","Bearer "+MySharedPreference.getTokenFromPreference(context))
-                   .build()
+                       if(token!=null)
+                           request.addHeader("Authorization","Bearer $token")
 
-               return@Interceptor chain.proceed(request)
+               return@Interceptor chain.proceed(request.build())
            }
 
            val okHttpClient = OkHttpClient.Builder()
@@ -52,7 +52,7 @@ interface GetService{
                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                .client(okHttpClient)
                .build()
-               .create(GetService::class.java)
+               .create(ApiService::class.java)
        }
     }
 }

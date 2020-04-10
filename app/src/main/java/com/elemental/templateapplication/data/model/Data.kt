@@ -1,4 +1,4 @@
-package com.elemental.templateapplication.model
+package com.elemental.templateapplication.data.model
 
 
 import com.google.gson.annotations.SerializedName

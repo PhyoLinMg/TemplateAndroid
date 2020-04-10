@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
+import com.elemental.templateapplication.presentation.viewmodels.SampleViewModel
 import com.elemental.templateapplication.utils.Constants
 import com.elemental.templateapplication.utils.MySharedPreference
 import com.elemental.templateapplication.utils.ProgressUtil
@@ -15,7 +16,7 @@ import org.kodein.di.android.kodein
 
 class MainActivity : AppCompatActivity(),KodeinAware {
     override val kodein by kodein()
-    private val viewModel:SampleViewModel by kodeinViewModel()
+    private val viewModel: SampleViewModel by kodeinViewModel()
 //    private val useCase:TestUseCase by instance()
 
 

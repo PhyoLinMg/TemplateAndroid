@@ -1,4 +1,4 @@
-package com.elemental.templateapplication.repository
+package com.elemental.templateapplication.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.elemental.templateapplication.utils.STATUS
