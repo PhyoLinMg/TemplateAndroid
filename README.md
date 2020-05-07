@@ -12,7 +12,7 @@
 
 - Convert Image to Base64 Utils
 
-- More Features coming soon
+- More Features coming soon(Fix the remote data source implementation and simplify the network call with the help of Medium article) gonna delete it after adding them.
 
   
 
