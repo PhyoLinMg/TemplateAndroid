@@ -1,12 +1,11 @@
 package com.elemental.templateapplication.domain.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.elemental.templateapplication.utils.STATUS
+import com.elemental.templateapplication.utils.networkUtils.Resource
 
 interface TestRepository {
-    fun load()
-    fun get():LiveData<List<Any>>
-    fun loadDetail(id:Int)
-    fun getDetail():Any
-    fun getStatus():LiveData<STATUS>
+    fun getAll(): LiveData<Resource<List<Any>>>
+    fun getDetail(id:Int): LiveData<Resource<Any>>?
 }

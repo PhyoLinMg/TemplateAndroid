@@ -3,12 +3,15 @@ package com.elemental.templateapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.elemental.templateapplication.presentation.viewmodels.SampleViewModel
 import com.elemental.templateapplication.utils.Constants
 import com.elemental.templateapplication.utils.MySharedPreference
 import com.elemental.templateapplication.utils.ProgressUtil
 import com.elemental.templateapplication.utils.kodeinViewModel
+import com.elemental.templateapplication.utils.networkUtils.Resource
 import kotlinx.android.synthetic.main.activity_main.*
 
 import org.kodein.di.KodeinAware
@@ -29,16 +32,31 @@ class MainActivity : AppCompatActivity(),KodeinAware {
 
         Log.d("token",MySharedPreference.getTokenFromPreference(this))
 
-        viewModel.load()
-        viewModel.getData().observe(this, Observer {
-            Log.d("getDataFromActivity",it.toString())
+
+        viewModel.getPeriods().observe(this, Observer {
+
+            when (it?.status) {
+                Resource.LOADING -> {
+                    Log.d("MainActivity", "--> Loading...")
+                    progress_bar.visibility= View.VISIBLE
+                }
+                Resource.SUCCESS -> {
+                    Log.d("MainActivity", "--> Success! | loaded ${it.data?.size ?: 0} records.")
+                    Log.d("getDataFromActivity",it.data.toString())
+                    progress_bar.visibility=View.GONE
+
+                }
+                Resource.ERROR -> {
+                    Log.d("MainActivity", "--> Error!")
+                    Toast.makeText(this,"Error occured",Toast.LENGTH_LONG).show()
+
+                }
+            }
         })
-        viewModel.loadDetail(1)
-        Log.d("detail",viewModel.getDetail().toString())
 
 
 
-        ProgressUtil.returnStatus(this,viewModel.getDataState(),progress_bar)
+
 
     }
 
