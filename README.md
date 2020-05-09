@@ -12,7 +12,9 @@
 
 - Convert Image to Base64 Utils
 
-- More Features coming soon(Fix the remote data source implementation and simplify the network call with the help of Medium article) gonna delete it after adding them.
+- OverSimplified Network call added from medium [link](https://proandroiddev.com/oversimplified-network-call-using-retrofit-livedata-kotlin-coroutines-and-dsl-512d08eadc16)
+
+- More Features coming soon...............
 
   
 
