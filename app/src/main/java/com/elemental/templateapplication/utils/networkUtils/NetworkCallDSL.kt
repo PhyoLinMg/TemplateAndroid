@@ -11,7 +11,7 @@ class CallHandler<RESPONSE : Any, DATA: Any> {
     @Suppress("UNCHECKED_CAST")
     fun makeCall() : MutableLiveData<Resource<DATA>> {
         val result = MutableLiveData<Resource<DATA>>()
-        result.setValue(Resource.loading(null))
+        result.value = Resource.loading(null)
 
         GlobalScope.launch {
             try {
