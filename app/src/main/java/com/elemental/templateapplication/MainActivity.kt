@@ -13,12 +13,13 @@ import com.elemental.templateapplication.utils.ProgressUtil
 import com.elemental.templateapplication.utils.kodeinViewModel
 import com.elemental.templateapplication.utils.networkUtils.Resource
 import kotlinx.android.synthetic.main.activity_main.*
+import org.kodein.di.Kodein
 
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 
 class MainActivity : AppCompatActivity(),KodeinAware {
-    override val kodein by kodein()
+    override val kodein: Kodein by kodein()
     private val viewModel: SampleViewModel by kodeinViewModel()
 //    private val useCase:TestUseCase by instance()
 
