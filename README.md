@@ -14,6 +14,8 @@
 
 - Over Simplified Network call added from medium [Link](https://proandroiddev.com/oversimplified-network-call-using-retrofit-livedata-kotlin-coroutines-and-dsl-512d08eadc16)
 
+- [Video And Voice Call with Sinch(Gonna make it compatiable with this repo)](https://github.com/PhyoLinMg/AudioVideoCallTemplate)
+
 - More Features coming soon...............
 
   
