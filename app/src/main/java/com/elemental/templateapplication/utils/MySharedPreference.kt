@@ -9,28 +9,17 @@ object MySharedPreference {
         return context.getSharedPreferences(Constants.mySharedPreference,Context.MODE_PRIVATE)
     }
 
-    fun postStringSharedPreference(context:Context,something:String){
+    fun postStringToSharedPreference(context:Context,value:String,key:String){
         with(getSharedPreference(context).edit()){
-            putString(Constants.String_keyword,something)
+            putString(key,value)
             commit()
         }
     }
-    fun getStringFromPreference(context:Context):String{
+    fun getStringFromPreference(context:Context,key:String):String{
         val sharedPreferences= getSharedPreference(context)
-        return sharedPreferences.getString(Constants.String_keyword,"").toString()
+        return sharedPreferences.getString(key,"").toString()
     }
-    fun saveTokenSharedPreference(context:Context,token:String){
-        with(getSharedPreference(context).edit()){
-            putString(Constants.access_token,token)
-            commit()
-        }
-    }
-    fun getTokenFromPreference(context:Context):String{
-        val sharedPreferences= getSharedPreference(context)
-        return sharedPreferences.getString(Constants.access_token,"").toString()
 
-
-    }
 
 
 }

@@ -9,7 +9,6 @@ import androidx.lifecycle.Observer
 import com.elemental.templateapplication.presentation.viewmodels.SampleViewModel
 import com.elemental.templateapplication.utils.Constants
 import com.elemental.templateapplication.utils.MySharedPreference
-import com.elemental.templateapplication.utils.ProgressUtil
 import com.elemental.templateapplication.utils.kodeinViewModel
 import com.elemental.templateapplication.utils.networkUtils.Resource
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,13 +28,12 @@ class MainActivity : AppCompatActivity(),KodeinAware {
         setContentView(R.layout.activity_main)
 
 
-        MySharedPreference.saveTokenSharedPreference(this,Constants.token)
+        MySharedPreference.postStringToSharedPreference(this,Constants.token,Constants.access_token)
 
-        Log.d("token",MySharedPreference.getTokenFromPreference(this))
+        Log.d("token",MySharedPreference.getStringFromPreference(this,Constants.access_token))
 
 
         viewModel.getPeriods().observe(this, Observer {
-
             when (it?.status) {
                 Resource.LOADING -> {
                     Log.d("MainActivity", "--> Loading...")

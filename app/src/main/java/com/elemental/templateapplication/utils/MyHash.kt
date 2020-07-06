@@ -10,17 +10,17 @@ object MyHash {
     private const val HASH_ALGORITHM = "HmacSHA256"
 
     @Throws(SignatureException::class)
-    fun hash(text: String): String {
+    fun hash(text: String,key:String): String {
         try {
-//            val sk = SecretKeySpec(
-//                getTransfer().toByteArray(charset("UTF-8")),
-//                HASH_ALGORITHM
-//            )
-//            val mac = Mac.getInstance(sk.algorithm)
-//            mac.init(sk)
-//            val hmac = mac.doFinal(text.toByteArray(charset("UTF-8")))
-//            return hmac.toHexString()
-            return ""
+            val sk = SecretKeySpec(
+                key.toByteArray(charset("UTF-8")),
+                HASH_ALGORITHM
+            )
+            val mac = Mac.getInstance(sk.algorithm)
+            mac.init(sk)
+            val hmac = mac.doFinal(text.toByteArray(charset("UTF-8")))
+            return hmac.toHexString()
+
         } catch (e1: NoSuchAlgorithmException) {
             // throw an exception or pick a different encryption method
             throw SignatureException(
@@ -32,5 +32,5 @@ object MyHash {
             )
         }
     }
-
+    private fun ByteArray.toHexString() = joinToString("") { "%02x".format(it) }
 }
