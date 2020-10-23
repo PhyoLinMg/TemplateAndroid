@@ -32,7 +32,7 @@ interface ApiService{
 
 
            val requestInterceptor = Interceptor { chain ->
-               val token=MySharedPreference.getTokenFromPreference(context)
+               val token=MySharedPreference.getStringFromPreference(context,Constants.access_token)
                val request = chain.request()
                    .newBuilder()
                        if(token!=null)

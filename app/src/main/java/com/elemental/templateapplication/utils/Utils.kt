@@ -65,7 +65,7 @@ object Utils {
         }
 
     }
-    fun bytesToHex(bytes: ByteArray): String {
+    private fun bytesToHex(bytes: ByteArray): String {
         val hashKey = String(Base64.encode(bytes, 0))
         Log.d("hashKey",hashKey);
         return hashKey

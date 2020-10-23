@@ -41,12 +41,14 @@ class MainActivity : AppCompatActivity(),KodeinAware {
                 }
                 Resource.SUCCESS -> {
                     Log.d("MainActivity", "--> Success! | loaded ${it.data?.size ?: 0} records.")
-                    Log.d("getDataFromActivity",it.data.toString())
+                    Log.d("getDataFromActivity",it.data?.get(0).toString())
+                    println("${it.data?.get(0)!!::class.simpleName}")
                     progress_bar.visibility=View.GONE
 
                 }
                 Resource.ERROR -> {
                     Log.d("MainActivity", "--> Error!")
+                    Log.d("code",it.errorType.toString())
                     Toast.makeText(this,"Error occured",Toast.LENGTH_LONG).show()
 
                 }

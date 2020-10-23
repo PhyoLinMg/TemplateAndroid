@@ -14,6 +14,7 @@ val repositoryModule = Kodein.Module("repositoryModule") {
             instance()
         )
     }
+
     bind<TestRepository>("majors") with provider {
         MajorImpl(
             instance()

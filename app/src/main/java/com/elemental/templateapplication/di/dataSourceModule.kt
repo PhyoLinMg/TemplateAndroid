@@ -1,6 +1,7 @@
 package com.elemental.templateapplication.di
 
 import com.elemental.templateapplication.data.dataSourceContract.RemoteDataSource
+import com.elemental.templateapplication.data.repository.TestRepositoryImpl
 import com.elemental.templateapplication.remote.source.RemoteDataSourceImpl
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
