@@ -24,7 +24,7 @@ This Feature will include Audio Selecting,Photos Selecting(Single And Multiple),
 
 - RecyclerView
 
-- [layout folder]()
+- [layout folder](https://github.com/PhyoLinMg/TemplateAndroid/tree/master/photo_layout)
 
   First You have to copy the photo gallery folder and add to your Project.
 
