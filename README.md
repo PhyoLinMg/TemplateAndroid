@@ -18,9 +18,7 @@
 
 - Gonna Add with Dagger Hilt(MVVM with OSN)
 
-- Gonna Add ImagePicker From Bro [Hein Htet Oo](https://github.com/heinhtetoo) for selecting Image and Video 
-
-
+- Adding ImagePicker From Bro [Hein Htet Oo](https://github.com/heinhtetoo) for selecting Image,Video and Audio 
 
 
 - More Features coming soon...............
