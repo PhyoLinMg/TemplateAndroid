@@ -1,6 +1,7 @@
 package com.elemental.templateapplication.features.Gallery.Photo
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -12,9 +13,9 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.StrictMode
+import android.os.StrictMode.VmPolicy
 import android.provider.MediaStore
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,28 +23,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.elemental.templateapplication.R
+
 import com.elemental.templateapplication.databinding.ActivityPhotoGalleryBinding
 import com.elemental.templateapplication.features.Gallery.BaseActivity
 import com.elemental.templateapplication.features.Gallery.GalleryAdapter
+
 import com.elemental.templateapplication.features.Gallery.data.GalleryMedia
 import com.elemental.templateapplication.utils.Constants
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class PhotoGalleryActivity : BaseActivity() {
-
     private lateinit var binding: ActivityPhotoGalleryBinding
 
     private lateinit var selectedImage: String
     private lateinit var imageList: ArrayList<GalleryMedia>
     private lateinit var directoryList: ArrayList<String>
     private lateinit var selectedImageList: ArrayList<String>
-    private var resImg = intArrayOf(R.drawable.ic_camera)
-    private var title = arrayOf("Camera")
     private lateinit var rvGallery: RecyclerView
     private lateinit var rvSelectedImages: RecyclerView
 
@@ -55,6 +53,10 @@ class PhotoGalleryActivity : BaseActivity() {
     private var croppedImage = ""
 
     private var isNavigatedToBack = true
+
+    //TODO :: Folder Selection
+    private var resImg = intArrayOf(R.drawable.ic_camera)
+    private var title = arrayOf("Camera")
 
     private var mCurrentPhotoPath: String? = null
     private lateinit var galleryAdapter: GalleryAdapter
@@ -71,7 +73,7 @@ class PhotoGalleryActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_photo_gallery)
+
         binding = ActivityPhotoGalleryBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
@@ -182,6 +184,108 @@ class PhotoGalleryActivity : BaseActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                if (mCurrentPhotoPath != null) {
+                    addImage(mCurrentPhotoPath)
+                }
+            } else if (requestCode == PICK_IMAGES) {
+                if (data != null) {
+                    if (data.clipData != null) {
+                        val mClipData = data.clipData
+                        for (i in 0 until mClipData!!.itemCount) {
+                            val item = mClipData.getItemAt(i)
+                            val uri: Uri = item.uri
+                            getImageFilePath(uri)
+                        }
+                    } else if (data.data != null) {
+                        val uri: Uri = data.data!!
+                        getImageFilePath(uri)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == STORAGE_PERMISSION && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            getAllImages()
+            setImageList()
+            setFolderList()
+
+            if (isSingleUpload) {
+                binding.selectedImageFrame.visibility = View.VISIBLE
+                binding.rvSelectedImages.visibility = View.GONE
+            } else {
+                binding.selectedImageFrame.visibility = View.GONE
+                binding.rvSelectedImages.visibility = View.VISIBLE
+                setSelectedImageList()
+            }
+        } else if (requestCode == STORAGE_PERMISSION && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            selectedImage = ""
+            selectedImageList.clear()
+            onBackPressed()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (isCropping) {
+            binding.btnCloseCropped.performClick()
+        } else {
+            if (isNavigatedToBack) {
+                selectedImage = ""
+                /**Not clear image list on normal back pressed
+                 * just clear on single image request**/
+                //selectedImageList.clear()
+            }
+
+            val intent = Intent()
+
+            if (isSingleUpload) {
+                if (selectedImage != "") {
+                    intent.putExtra(Constants.IS_PHOTO_ADDED_EXTRA, true)
+                    intent.putExtra(
+                        Constants.PHOTO_EXTRA,
+                        if (isCropped) croppedImage else selectedImage
+                    )
+                } else {
+                    intent.putExtra(Constants.IS_PHOTO_ADDED_EXTRA, false)
+                }
+
+                setResult(Constants.SINGLE_PHOTO_REQUEST_CODE, intent)
+            } else {
+                if (selectedImageList.size > 0) {
+                    intent.putExtra(Constants.IS_PHOTO_LIST_ADDED_EXTRA, true)
+                    intent.putExtra(Constants.PHOTO_LIST_EXTRA, selectedImageList)
+                } else {
+                    intent.putExtra(Constants.IS_PHOTO_LIST_ADDED_EXTRA, false)
+                }
+
+                setResult(Constants.PHOTO_LIST_REQUEST_CODE, intent)
+            }
+
+            super.onBackPressed()
+        }
+    }
+
+    // Same functionality added to BaseActivity
+    /*private fun setupStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = ContextCompat.getColor(
+                this,
+                R.color.colorStatusBar
+            )
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+    }*/
+
     private fun toggleActionButton(flag: Boolean) {
         if (flag) {
             binding.btnDone.isEnabled = true
@@ -191,7 +295,6 @@ class PhotoGalleryActivity : BaseActivity() {
         } else {
             binding.btnDone.isEnabled = false
             binding.btnDone.setTextColor(
-                //#808080
                 ContextCompat.getColor(this, R.color.disabled_text)
             )
         }
@@ -326,7 +429,9 @@ class PhotoGalleryActivity : BaseActivity() {
     // set folder list
     private fun setFolderList() {
         binding.etFolder.setText(
-            directoryList[0].substringAfterLast("/", directoryList[0])
+
+                directoryList[0].substringAfterLast("/", directoryList[0])
+
         )
         binding.etFolder.setOnClickListener {
             val directoryNames = ArrayList<String>()
@@ -389,7 +494,7 @@ class PhotoGalleryActivity : BaseActivity() {
 
     // start the image capture Intent
     private fun takePicture() {
-        val builder = StrictMode.VmPolicy.Builder()
+        val builder = VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         // Continue only if the File was successfully created;

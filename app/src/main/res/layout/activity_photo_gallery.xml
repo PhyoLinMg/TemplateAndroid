@@ -85,7 +85,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:textCursorDrawable="@null"
-                    app:fontName="@string/font_name_primary" />
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,7 +106,7 @@
                 android:textStyle="bold"
                 app:backgroundTint="@android:color/transparent"
                 app:cornerRadius="8dp"
-                app:fontName="@string/font_name_button" />
+                />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_confirm_cropped"
@@ -126,7 +126,7 @@
                 android:visibility="gone"
                 app:backgroundTint="@android:color/transparent"
                 app:cornerRadius="8dp"
-                app:fontName="@string/font_name_button" />
+                />
 
         </RelativeLayout>
 
@@ -161,7 +161,7 @@
                 android:textColor="#808080"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:fontName="@string/font_name_primary" />
+                />
 
         </LinearLayout>
 
